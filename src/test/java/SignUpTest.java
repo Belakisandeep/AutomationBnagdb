@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Optional;
 
-public class SignUp {
+public class SignUpTest {
     WebDriver driver;
     WebDriverWait wait;
     DevTools devTools;
