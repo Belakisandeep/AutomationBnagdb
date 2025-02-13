@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v85.network.Network;
 import org.openqa.selenium.devtools.v85.network.model.RequestId;
@@ -30,7 +31,14 @@ public class SignUpTest {
 
     @BeforeMethod
     public void setUp() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");  // Run Chrome in headless mode (important for Jenkins)
+        options.addArguments("--no-sandbox");  // Required when running as root or Jenkins
+        options.addArguments("--disable-dev-shm-usage");  // Prevents memory issues in Docker/low-memory environments
+        options.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis());  // Unique profile directory
+        options.addArguments("--remote-allow-origins=*");  // Allow cross-origin requests (if needed)
+
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get("https://testappstore.bangdb.com/detail/bugtapp");
 
